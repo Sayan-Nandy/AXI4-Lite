@@ -201,7 +201,6 @@ module tb_axi4_lite_gpio_slave;
 
     // ----------------------------------------------------------------
     // AXI write: AW first, W several cycles later
-    // This is legal AXI4-Lite and catches the original DUT bug.
     // ----------------------------------------------------------------
     task axi_write_aw_first;
         input [ADDR_WIDTH-1:0] addr;
@@ -267,7 +266,6 @@ module tb_axi4_lite_gpio_slave;
 
     // ----------------------------------------------------------------
     // AXI write: W first, AW later
-    // This is also legal AXI4-Lite.
     // ----------------------------------------------------------------
     task axi_write_w_first;
         input [ADDR_WIDTH-1:0] addr;
@@ -480,7 +478,6 @@ module tb_axi4_lite_gpio_slave;
 
         // ------------------------------------------------------------
         // 7. Invalid read address
-        // Corrected DUT should return zero + SLVERR.
         // ------------------------------------------------------------
         axi_read(ADDR_BAD, rdata, rresp);
         check_equal(rdata, 32'h0000_0000, "invalid read data");
@@ -488,7 +485,6 @@ module tb_axi4_lite_gpio_slave;
 
         // ------------------------------------------------------------
         // 8. Invalid write address
-        // Corrected DUT should return SLVERR.
         // ------------------------------------------------------------
         axi_write(ADDR_BAD, 32'hDEAD_BEEF, 4'b1111, 2'b10);
 
